@@ -1,0 +1,26 @@
+﻿@{
+    Layout = BaseController.BaseLayout;
+}
+
+<partial name="@BaseController.HeaderPartial" />
+
+<div class="container flex-grow-1 mt-8">
+    @RenderBody()
+</div>
+
+<partial name="@BaseController.FooterPartial" />
+
+@section styles
+{
+    @await RenderSectionAsync("styles", false)
+}
+
+@section modals
+{
+    @await RenderSectionAsync("modals", false)
+}
+
+@section scripts
+{
+    @await RenderSectionAsync("scripts", false)
+}
