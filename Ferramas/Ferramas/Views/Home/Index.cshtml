@@ -1,5 +1,14 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model HomeIndexViewModel
+
+<div class="rounded-4 bg-light p-10 flex-around">
+    <div class="t-dark">
+        <h2>Ferramas</h2>
+        <p>Un texto de presentacion</p>
+    </div>
+    <div class="home-grid">
+        @foreach(Category category in Model.Categories)
+        {
+            <a asp-controller="product" asp-action="list" asp-route-category="@category.Name" class="btn btn-red">@category.Name</a>
+        }
+    </div>
+</div>

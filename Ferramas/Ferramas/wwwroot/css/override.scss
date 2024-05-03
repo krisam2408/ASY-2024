@@ -1,1 +1,5 @@
 @import '../lib/tuxedo/_model.scss';
+
+body{
+    background-color:map_get($base-colors, 'orange');
+}

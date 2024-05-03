@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Ferramas.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Ferramas.Controllers;
 
@@ -8,8 +9,32 @@ public abstract class BaseController : Controller
     public const string HeaderPartial = "~/Views/Shared/Partials/_Header.cshtml";
     public const string FooterPartial = "~/Views/Shared/Partials/_Footer.cshtml";
 
-    public IActionResult Index()
+    protected virtual void CommonDataTransfer()
     {
-        return View();
+        ViewData["Auth"] = HttpContext.IsAuthenticated();
+    }
+
+    protected new ViewResult View()
+    {
+        CommonDataTransfer();
+        return base.View();
+    }
+
+    protected new ViewResult View(string viewName)
+    {
+        CommonDataTransfer();
+        return base.View(viewName);
+    }
+
+    protected new ViewResult View(object model)
+    {
+        CommonDataTransfer();
+        return base.View(model);
+    }
+
+    protected new ViewResult View(string viewName, object model)
+    {
+        CommonDataTransfer();
+        return base.View(viewName, model);
     }
 }

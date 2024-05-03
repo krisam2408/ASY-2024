@@ -1,5 +1,10 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<header class="bg-dark-orange w-100 py-3 flex-end">
+    @if((bool?)ViewData["Auth"] == true)
+    {
+        <a asp-controller="auth" asp-action="logout" class="btn btn-red">Cerrar Sesión</a>
+    }
+    else
+    {
+        <a asp-controller="auth" asp-action="index" class="btn btn-blue">Iniciar Sesión</a>
+    }
+</header>
