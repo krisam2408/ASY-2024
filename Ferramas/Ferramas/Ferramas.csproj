@@ -34,10 +34,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\DBConfig\DBConfig.csproj" />
+    <ProjectReference Include="..\..\..\Utilities\MaiSchatz\MaiSchatz.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\products\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 

@@ -4,6 +4,7 @@ using Ferramas.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ferramas.Migrations
 {
     [DbContext(typeof(FerraContext))]
-    partial class FerraContextModelSnapshot : ModelSnapshot
+    [Migration("20240506145613_subscription")]
+    partial class subscription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,7 +123,7 @@ namespace Ferramas.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1c2fda0e-cff5-43fb-a26a-ee67ceb38a73"),
+                            Id = new Guid("8fc0f0aa-e5ea-4fa9-a82b-c282cedb433e"),
                             Email = "testerina@gmail.com",
                             Name = "Testerina",
                             PasswordHash = "admin",
@@ -128,7 +131,7 @@ namespace Ferramas.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e7c6ad17-f6ac-46c0-9927-0c0c3c5be309"),
+                            Id = new Guid("57b15f6f-12f0-4912-a8bf-96bead3ae091"),
                             Email = "acasas@gmail.com",
                             Name = "Armando",
                             PasswordHash = "admin",
@@ -136,7 +139,7 @@ namespace Ferramas.Migrations
                         },
                         new
                         {
-                            Id = new Guid("07142810-eb41-4892-9e92-1bcf5f6c3c19"),
+                            Id = new Guid("c3486276-80a6-461d-9874-43566c0631fe"),
                             Email = "pe.palo@gmail.com",
                             Name = "Pedro",
                             PasswordHash = "admin",
@@ -157,7 +160,7 @@ namespace Ferramas.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
+                    b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -176,7 +179,7 @@ namespace Ferramas.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c467ff12-6fbd-484e-b607-06686695aaea"),
+                            Id = new Guid("0835f86c-8453-47fb-849e-3da6773ba511"),
                             CategoryId = 1,
                             Description = "Para hacerte el hipster y decir que cocinas todo con agua.",
                             Name = "Aceite en Polvo",
@@ -184,7 +187,7 @@ namespace Ferramas.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9bfffc66-e36d-4c2a-8b4b-782095d57ebd"),
+                            Id = new Guid("57b59b36-1b72-43a2-a060-9ad1e36bdb2b"),
                             CategoryId = 2,
                             Description = "Para demostrarle a Dios que eres impuro pero cuidas de tu salud.",
                             Name = "Látigo con Puntas de Cobre",
@@ -192,7 +195,7 @@ namespace Ferramas.Migrations
                         },
                         new
                         {
-                            Id = new Guid("26f23bec-2855-4675-8fb9-eb20a2619b62"),
+                            Id = new Guid("e2c8ddcf-aed7-4b48-82d3-287a6252d281"),
                             CategoryId = 2,
                             Description = "Sancho Panza Metálico.",
                             Name = "Figura de Fierro de Don Quijote",
@@ -200,7 +203,7 @@ namespace Ferramas.Migrations
                         },
                         new
                         {
-                            Id = new Guid("68367bc2-3386-444e-b536-113991ceaf62"),
+                            Id = new Guid("72455ff7-f40d-4752-9d42-bb25bbc39c24"),
                             CategoryId = 3,
                             Description = "Para disfrazarte de alguien que se cree impuro.",
                             Name = "Látigo con Puntas Sin Filo",
@@ -208,7 +211,7 @@ namespace Ferramas.Migrations
                         },
                         new
                         {
-                            Id = new Guid("31f3550b-7c05-46d9-9d87-9143e334b81c"),
+                            Id = new Guid("6a70b694-bc25-4c55-9d1f-f5d4ee217dda"),
                             CategoryId = 4,
                             Description = "Para escuchar ese zumbido que molesta a tus vecinos y ver los canales que no te gustan.",
                             Name = "Multiantena de Fierro",
@@ -216,7 +219,7 @@ namespace Ferramas.Migrations
                         },
                         new
                         {
-                            Id = new Guid("87cd4682-f5fa-4843-bc3e-4f758ca378ed"),
+                            Id = new Guid("261fbdec-bb84-4cd7-a25e-748f6974d892"),
                             CategoryId = 5,
                             Description = "Para mostrar la fuerza que no tienes.",
                             Name = "Martillo Doble Golpe",
@@ -224,7 +227,7 @@ namespace Ferramas.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d99d7cc2-a736-41d0-ac13-145e3933bdda"),
+                            Id = new Guid("10e75d11-aeab-45c2-abc5-38d173b474fb"),
                             CategoryId = 6,
                             Description = "Magnificado a escala con lujo de detalles. Para estudiar lo que no puedes ver.",
                             Name = "Miembro a Escala",

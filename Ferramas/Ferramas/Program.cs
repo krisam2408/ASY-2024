@@ -1,6 +1,7 @@
 using DBConfig.Abstract;
 using DBConfig.Factory;
 using Ferramas.Model;
+using MaiSchatz;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +36,10 @@ app.Run();
 
 void ConfigureSevices()
 {
+    IConfigurationSection exchangeSection = builder.Configuration.GetSection("ExchangeAPI");
+    MaiSchatzSettings exchangeSettings = new(exchangeSection);
+    builder.Services.AddScoped((exa) => new MeinMai(exchangeSettings));
+
     IConfigurationSection dbSection = builder.Configuration.GetSection("DBConnection");
     IDBConnectionData connectionData = DBConnectionFactory.CreateDBConnectionData(dbSection);
     builder.Services.AddDbContextPool<FerraContext>(options => options.UseSqlServer(connectionData.ConnectionString));

@@ -1,0 +1,6 @@
+﻿<form asp-action="subscribe" method="post">
+    @Html.AntiForgeryToken()
+    <label for="Email">Correo Electrónico</label>
+    <input name="Email" />
+    <button type="submit">Suscribirse</button>
+</form>

@@ -1,0 +1,118 @@
+﻿using Ferramas.Model;
+using Ferramas.Model.DataTransfer;
+using Ferramas.Model.Domain;
+using Ferramas.Model.ViewModels;
+using MaiSchatz;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace Ferramas.Controllers;
+
+public sealed class ProductController : BaseController
+{
+    private readonly FerraContext m_context;
+    private readonly MeinMai m_exchangeApi;
+
+    public ProductController(FerraContext context, MeinMai exchange)
+    {
+        m_context = context;
+        m_exchangeApi = exchange;
+    }
+
+    public async Task<IActionResult> List(string category)
+    {
+        Product[] products = await ListProducts(category);
+
+        if (products.Length == 0)
+            return RedirectToAction("index", "home");
+
+        List<JsonProduct> result = await HandleJsonProducts(products);
+
+        ProductListViewModel model = new()
+        {
+            Title = category,
+            Products = result.ToArray()
+        };
+
+        return View(model);
+    }
+
+    [HttpGet, Route("api/products/")]
+    public async Task<JsonResult> Products()
+    {
+        Product[] products = await m_context
+            .Products
+            .Include(p => p.Category)
+            .ToArrayAsync();
+
+        List<JsonProduct> result = await HandleJsonProducts(products);
+
+        return Json(result);
+    }
+
+    [HttpGet, Route("api/products/byCategory/{category}")]
+    public async Task<IActionResult> ListByCategory(string category)
+    {
+        Product[] products = await ListProducts(category);
+        if (products.Length == 0)
+            return BadRequest();
+
+        List<JsonProduct> result = await HandleJsonProducts(products);
+
+        return Json(result);
+    }
+
+    [HttpGet, Route("api/products/byId/{id}")]
+    public async Task<IActionResult> ProductById(string id)
+    {
+        if(Guid.TryParse(id, out Guid productId))
+        {
+            Product? product = await m_context
+                .Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == productId);
+
+            if(product == null)
+                return NotFound();
+
+            JsonProduct result = new(product);
+            await result.Initialize(m_exchangeApi);
+
+            return Json(result);
+        }
+
+        return BadRequest();
+    }
+
+    private async Task<Product[]> ListProducts(string category)
+    {
+        Category? categoryInstance = await m_context
+            .Categories
+            .FirstOrDefaultAsync(c => c.Name == category);
+
+        if (categoryInstance == null)
+            return Array.Empty<Product>();
+
+        Product[] products = await m_context
+            .Products
+            .Include(p => p.Category)
+            .Where(p => p.CategoryId == categoryInstance.Id)
+            .ToArrayAsync();
+
+        return products;
+    }
+
+    private async Task<List<JsonProduct>> HandleJsonProducts(Product[] products)
+    {
+        List<JsonProduct> result = new();
+
+        foreach (Product product in products)
+        {
+            JsonProduct jProduct = new(product);
+            await jProduct.Initialize(m_exchangeApi);
+            result.Add(jProduct);
+        }
+
+        return result;
+    }
+}

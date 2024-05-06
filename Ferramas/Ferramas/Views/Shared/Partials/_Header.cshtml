@@ -1,4 +1,5 @@
-﻿<header class="bg-dark-orange w-100 py-3 flex-end">
+﻿<header class="bg-dark-orange w-100 py-3 flex-between">
+    <a asp-controller="home" asp-action="index">Inicio</a>
     @if((bool?)ViewData["Auth"] == true)
     {
         <a asp-controller="auth" asp-action="logout" class="btn btn-red">Cerrar Sesión</a>

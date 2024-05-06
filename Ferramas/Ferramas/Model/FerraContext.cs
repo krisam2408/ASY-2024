@@ -13,6 +13,7 @@ public sealed class FerraContext : DbContext
     public DbSet<FerraUser> Users { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<PurchaseAttempt> Purchases { get; set; }
+    public DbSet<Subscription> Subscriptions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,6 +42,10 @@ public sealed class FerraContext : DbContext
 
         foreach (IMutableForeignKey key in foreignKeys)
             key.DeleteBehavior = DeleteBehavior.NoAction;
+
+        builder.Entity<Subscription>()
+            .HasIndex(k => k.Email)
+            .IsUnique();
     }
 
     private static void Seed(ModelBuilder builder)
