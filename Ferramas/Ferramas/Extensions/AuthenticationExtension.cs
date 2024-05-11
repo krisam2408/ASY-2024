@@ -35,4 +35,30 @@ public static class AuthenticationExtension
 
         return identity.IsAuthenticated;
     }
+
+    public static string GetUserEmail(this HttpContext context)
+    {
+        if (!context.IsAuthenticated())
+            return "";
+
+        ClaimsIdentity[] identities = context
+            .User
+            .Identities
+            .ToArray();
+
+        foreach(ClaimsIdentity id in identities)
+        {
+            Claim[] claims = id
+                .Claims
+                .Where(c => c.Type == ClaimTypes.Email)
+                .ToArray();
+
+            if (claims.Length > 0)
+                return claims
+                    .First()
+                    .Value;
+        }
+
+        return "";
+    }
 }

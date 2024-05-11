@@ -6,4 +6,5 @@ public sealed class Cart
     public Guid? UserId {  get; set; }
     public FerraUser? User { get; set; }
     public string Details { get; set; }
+    public bool PurchasePending { get; set; }
 }

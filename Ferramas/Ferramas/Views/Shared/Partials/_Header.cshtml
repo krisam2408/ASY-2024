@@ -2,7 +2,10 @@
     <a asp-controller="home" asp-action="index">Inicio</a>
     @if((bool?)ViewData["Auth"] == true)
     {
-        <a asp-controller="auth" asp-action="logout" class="btn btn-red">Cerrar Sesión</a>
+        <div class="flex-start">
+            <a asp-controller="cart" asp-action="index" class="btn btn-ocean me-3">Ver Carro</a>
+            <a asp-controller="auth" asp-action="logout" class="btn btn-red">Cerrar Sesión</a>
+        </div>
     }
     else
     {

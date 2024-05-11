@@ -1,15 +1,20 @@
-﻿@using System.Globalization
-@model ProductListViewModel
+﻿@model ProductListViewModel
 
 <h1>@Model.Title</h1>
 @foreach(JsonProduct product in Model.Products)
 {
+    string color = "dark";
+    if (!product.APIStatus)
+    {
+        color = "red";
+    }
+
     <div class="flex-start">
         <img src="data:@product.Image.Mime;base64,@product.Image.Data" />
         <div>
             <a asp-action="product" asp-route-id="@product.Id">@product.Name</a>
-            <p>$ @product.PriceCLP.ToString("###,###,##0", CultureInfo.GetCultureInfo("es-CL")) CLP</p>
-            <p>$ @product.PriceUSD.ToString("###,###,##0.###", CultureInfo.GetCultureInfo("es-CL")) USD</p>
+            <p>@product.PriceCLP.CLPFormat()</p>
+            <p class="t-@color">@product.PriceUSD.USDFormat()</p>
         </div>
     </div>
 }

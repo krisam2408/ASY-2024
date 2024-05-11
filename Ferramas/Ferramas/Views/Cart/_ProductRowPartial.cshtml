@@ -1,0 +1,19 @@
+﻿@model KeyValuePair<JsonProduct, int>
+@{
+    JsonProduct product = Model.Key;
+}
+
+<div class="flex-between mb-2">
+    <a asp-controller="product" asp-action="product" asp-route-id="@product.Id">@product.Name</a>
+    <div class="flex-center">
+        <form asp-action="add" method="post">
+            <input type="hidden" name="id" value="@product.Id" />
+            <button type="submit" class="btn btn-blue rect-40">+</button>
+        </form>
+        <input value="@Model.Value" class="rect-40 mx-1 text-center" readonly />
+        <form asp-action="substract" method="post">
+            <input type="hidden" name="id" value="@product.Id" />
+            <button type="submit" class="btn btn-red rect-40">-</button>
+        </form>
+    </div>
+</div>

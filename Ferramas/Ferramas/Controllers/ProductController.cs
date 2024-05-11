@@ -37,6 +37,22 @@ public sealed class ProductController : BaseController
         return View(model);
     }
 
+    public async Task<IActionResult> Product(string id)
+    {
+        Guid productId = Guid.Parse(id);
+
+        Product product = await m_context
+            .Products
+            .Include(p => p.Category)
+            .FirstAsync(p => p.Id == productId);
+
+        KeyValuePair<bool, float> exchangeResult = await ExchangeRequest(m_exchangeApi);
+
+        JsonProduct model = await JsonProduct.Create(product, exchangeResult);
+
+        return View(model);
+    }
+
     [HttpGet, Route("api/products/")]
     public async Task<JsonResult> Products()
     {
@@ -75,8 +91,8 @@ public sealed class ProductController : BaseController
             if(product == null)
                 return NotFound();
 
-            JsonProduct result = new(product);
-            await result.Initialize(m_exchangeApi);
+            KeyValuePair<bool, float> exchangeResult = await ExchangeRequest(m_exchangeApi);
+            JsonProduct result = await JsonProduct.Create(product, exchangeResult);
 
             return Json(result);
         }
@@ -106,10 +122,11 @@ public sealed class ProductController : BaseController
     {
         List<JsonProduct> result = new();
 
+        KeyValuePair<bool, float> exchangeResult = await ExchangeRequest(m_exchangeApi);
+
         foreach (Product product in products)
         {
-            JsonProduct jProduct = new(product);
-            await jProduct.Initialize(m_exchangeApi);
+            JsonProduct jProduct = await JsonProduct.Create(product, exchangeResult);
             result.Add(jProduct);
         }
 

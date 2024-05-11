@@ -1,0 +1,33 @@
+﻿@model CartIndexViewModel
+
+<h1>Carro</h1>
+
+@if (!Model.GotProducts)
+{
+    <p>No hay productos</p>
+}
+else
+{
+    string color = "dark";
+    if (!Model.APIStatus)
+    {
+        color = "red";
+    }
+
+    <div class="cart-grid">
+        <div class="products">
+            @foreach(KeyValuePair<JsonProduct, int> product in Model.JsonCart)
+            {
+                <partial name="@BaseController.ProductRowPartial" model="@product" />
+            }
+        </div>
+        <div class="prices flex-center flex-column">
+            <p>@Model.CLPTotalValue.CLPFormat()</p>
+            <p class="t-@color">@Model.USDTotalValue.USDFormat()</p>
+        </div>
+        <div class="buttons flex-start flex-column">
+            <a asp-controller="purchase" asp-action="purchaseCart" asp-route-id="@Model.CartId" class="btn btn-blue wpx-232 mb-2">Comprar</a>
+            <a asp-controller="cart" asp-action="clear" asp-route-id="@Model.CartId" class="btn btn-red wpx-232">Limpiar Carro</a>
+        </div>
+    </div>
+}

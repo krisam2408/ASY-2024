@@ -1,5 +1,4 @@
 ﻿using Ferramas.Model.Domain;
-using MaiSchatz;
 
 namespace Ferramas.Model.DataTransfer;
 
@@ -12,25 +11,25 @@ public sealed class JsonProduct
     public string Description { get; set; }
     public float PriceCLP { get; set; }
     public float PriceUSD { get; set; }
+    public bool APIStatus { get; set; }
 
-    private readonly string? m_image;
-
-    public JsonProduct(Product product)
+    private JsonProduct(Product product)
     {
         Id = product.Id;
         Name = product.Name;
-        m_image = product.Image;
         Category = product.Category.Name;
         Description = product.Description;
         PriceCLP = product.Price;
     }
 
-    public async Task Initialize(MeinMai caller)
+    public static async Task<JsonProduct> Create(Product product, KeyValuePair<bool, float> requestResult)
     {
-        Image = await HandleBase64Image(m_image);
+        JsonProduct result = new(product);
+        result.Image = await HandleBase64Image(product.Image);
+        result.APIStatus = requestResult.Key;
+        result.PriceUSD = result.PriceCLP * requestResult.Value;
 
-        float usdFactor = await HandleUSDPrice(caller);
-        PriceUSD = PriceCLP * usdFactor;
+        return result;
     }
 
     private static async Task<ImageBase64> HandleBase64Image(string? image)
@@ -50,24 +49,5 @@ public sealed class JsonProduct
         imageBase64.Data = Convert.ToBase64String(buffer);
 
         return imageBase64;
-    }
-
-    private static async Task<float> HandleUSDPrice(MeinMai caller)
-    {
-        ExchangeResponse? response = await caller
-            .CallAsync<ExchangeResponse>();
-
-        if (response == null)
-            return 0f;
-
-        if (!response.Success)
-            return 0f;
-        
-        float clp = response.Rates["CLP"];
-        float usd = response.Rates["USD"];
-
-        float factor = usd / clp;
-
-        return factor;
     }
 }

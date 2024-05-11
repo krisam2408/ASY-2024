@@ -1,0 +1,25 @@
+﻿@model JsonProduct
+@{
+    string color = "dark";
+    if (!Model.APIStatus)
+    {
+        color = "red";
+    }
+}
+
+<h1>@Model.Name</h1>
+
+<div class="product-grid">
+    <img src="data:@Model.Image.Mime;base64,@Model.Image.Data" />
+    <div class="prices">
+        <p>@Model.PriceCLP.CLPFormat()</p>
+        <p class="t-@color">@Model.PriceUSD.USDFormat()</p>
+    </div>
+    <p class="description">
+        @Model.Description
+    </p>
+    <div class="buttons flex-start flex-column">
+        <a asp-controller="cart" asp-action="add" asp-route-id="@Model.Id" class="btn btn-ocean wpx-232 mb-2">Agregar a Carro</a>
+        <a asp-controller="purchase" asp-action="purchaseProduct" asp-route-id="@Model.Id" class="btn btn-blue wpx-232">Comprar</a>
+    </div>
+</div>
