@@ -113,6 +113,41 @@ public class CartController : BaseController
             .Cart
             .FirstAsync(c => c.Id == Guid.Parse(id));
 
+        PurchaseAttempt[] attempts = await m_context
+            .Purchases
+            .Where(p => p.CartId == cart.Id)
+            .ToArrayAsync();
+
+        bool bought = false;
+
+        foreach(PurchaseAttempt attempt in attempts)
+        {
+            if(attempt.Accepted)
+            {
+                bought = true;
+                break;
+            }    
+        }    
+
+        if (bought)
+        {
+            cart.PurchasePending = false;
+
+            await m_context
+                .Cart
+                .UpdateAsync(cart);
+
+            await m_context.SaveChangesAsync();
+
+            return RedirectToAction("index", "home");
+        }
+        
+        m_context
+            .Purchases
+            .DeleteRange(attempts);
+
+        await m_context.SaveChangesAsync();
+
         m_context
             .Cart
             .Delete(cart);

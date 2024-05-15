@@ -1,0 +1,28 @@
+﻿@model PurchasePayViewModel
+
+<form method="post" action="@Model.Url">
+    <input type="hidden" name="token_ws" value="@Model.Token" />
+    <button type="submit" class="btn btn-blue">Pagar</button>
+</form>
+
+@{
+    DateTime today = DateTime.Today
+        .AddMonths(1)
+        .AddYears(1);
+
+    string month = today
+        .Month
+        .ToString()
+        .PadLeft(2, '0');
+
+    string year = today
+        .Year
+        .ToString()[^2..];
+}
+
+<h3 class="mt-3">Datos de Transaccion de prueba</h3>
+<p>VISA: 4051885600446623</p>
+<p>CVV: 123</p>
+<p>Fecha de Expiracion: @month/@year</p>
+<p>RUT: 11.111.111-1</p>
+<p>Clave: 123</p>

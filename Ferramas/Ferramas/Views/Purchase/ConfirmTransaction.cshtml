@@ -1,0 +1,12 @@
+﻿@model PurchaseConfirmViewModel
+@{
+    string result = "Hubo un problema";
+    if (Model.Success)
+    {
+        result = "Compra Exitosa";
+    }
+}
+
+<h1>@result</h1>
+
+<a asp-controller="home" asp-action="index" class=" btn btn-blue mt-3">Volver a Inicio</a>
