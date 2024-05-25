@@ -75,7 +75,8 @@ public sealed class FerraContext : DbContext
 
         Product[] cocinaProducts = 
         [
-            new() { Id = Guid.NewGuid(), CategoryId = (int) ProductCategories.Cocina, Name = "Aceite en Polvo", Description = "Para hacerte el hipster y decir que cocinas todo con agua.", Price = 6500 },
+            new() { Id = Guid.NewGuid(), CategoryId = (int) ProductCategories.Cocina, Name = "Aceite en Polvo", Description = "Para hacerte el hipster y decir que cocinas todo con agua.", Price = 6500, Image="aceite.jpg"},
+            new() { Id = Guid.NewGuid(), CategoryId = (int) ProductCategories.Cocina, Name = "Aceite en Polvo", Description = "Para decir que cocinas todo con agua.", Price = 4670 },
         ];
 
         Product[] decoProducts = 

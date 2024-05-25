@@ -10,7 +10,7 @@
     }
 
     <div class="flex-start">
-        <img src="data:@product.Image.Mime;base64,@product.Image.Data" />
+        <img class="rect-256" src="data:@product.Image.Mime;base64,@product.Image.Data" />
         <div>
             <a asp-action="product" asp-route-id="@product.Id">@product.Name</a>
             <p>@product.PriceCLP.CLPFormat()</p>
