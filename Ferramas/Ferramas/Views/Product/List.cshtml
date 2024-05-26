@@ -9,10 +9,10 @@
         color = "red";
     }
 
-    <div class="flex-start">
+    <div class="flex-start mt-4">
         <img class="rect-256" src="data:@product.Image.Mime;base64,@product.Image.Data" />
         <div>
-            <a asp-action="product" asp-route-id="@product.Id">@product.Name</a>
+            <a asp-action="product" asp-route-id="@product.Id" style="color: white;">@product.Name</a>
             <p>@product.PriceCLP.CLPFormat()</p>
             <p class="t-@color">@product.PriceUSD.USDFormat()</p>
         </div>

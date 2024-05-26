@@ -4,6 +4,7 @@ using Ferramas.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ferramas.Migrations
 {
     [DbContext(typeof(FerraContext))]
-    partial class FerraContextModelSnapshot : ModelSnapshot
+    [Migration("20240526011556_Products")]
+    partial class Products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,7 +126,7 @@ namespace Ferramas.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("44a1e669-a3a6-4437-a2cc-6eddbfd1b01c"),
+                            Id = new Guid("7bfa761f-14ad-408a-b404-9ba7d492605f"),
                             Email = "testerina@gmail.com",
                             Name = "Testerina",
                             PasswordHash = "admin",
@@ -131,7 +134,7 @@ namespace Ferramas.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1b1ff9cf-8f46-4d0b-8c93-4c2f5f97ea0c"),
+                            Id = new Guid("588ea360-eaec-4e08-97da-2d9bc17cebad"),
                             Email = "acasas@gmail.com",
                             Name = "Armando",
                             PasswordHash = "admin",
@@ -139,7 +142,7 @@ namespace Ferramas.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0be7c2dc-5f4b-4175-a2be-940b1edda83b"),
+                            Id = new Guid("243bb0d2-1c86-4df1-98c7-d1cf925db0c3"),
                             Email = "pe.palo@gmail.com",
                             Name = "Pedro",
                             PasswordHash = "admin",
@@ -179,7 +182,7 @@ namespace Ferramas.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("9aa1a959-cfe7-4625-b837-bdc5dacba9b8"),
+                            Id = new Guid("445a8581-bcb3-4cdb-82b3-3292fd664ab8"),
                             CategoryId = 1,
                             Description = "Para hacerte el hipster y decir que cocinas todo con agua.",
                             Image = "aceite.jpg",
@@ -188,155 +191,138 @@ namespace Ferramas.Migrations
                         },
                         new
                         {
-                            Id = new Guid("aedc4959-4dfc-4048-b573-9cc43ac68438"),
+                            Id = new Guid("469c44ee-900d-4cd5-8ddb-8419bf66e999"),
                             CategoryId = 1,
-                            Description = "Un buen producto para nuestros amantes de la cocina, solo no te vayas a equivocar de salero",
-                            Image = "sal.webp",
-                            Name = "Soda caustica en formato salero",
+                            Description = "Para evitar la sal",
+                            Name = "Sal sin sodio",
                             Price = 1200f
                         },
                         new
                         {
-                            Id = new Guid("c4d40032-f26f-4a0c-9874-60277f42e66d"),
+                            Id = new Guid("a1183b3b-73ee-4a89-a35b-dcffcab9ff9d"),
                             CategoryId = 1,
-                            Description = "Mayo vegana con hierro extra para nuestros anemicos favoritos",
-                            Image = "mayo.jpg",
+                            Description = "Nose porque diablos alguien compraria esto",
                             Name = "NOT MAYO",
                             Price = 3500f
                         },
                         new
                         {
-                            Id = new Guid("12c3623d-1c5b-4bbb-9509-eeded088fb01"),
+                            Id = new Guid("fe4d41ae-a0b1-4f8a-ad4a-33bf6c698a74"),
                             CategoryId = 2,
                             Description = "Para demostrarle a Dios que eres impuro pero cuidas de tu salud.",
-                            Image = "cuerda1.webp",
                             Name = "Látigo con Puntas de Cobre",
                             Price = 13250f
                         },
                         new
                         {
-                            Id = new Guid("bd94180a-eeb2-4771-90f7-fff86f367bed"),
+                            Id = new Guid("a6cadb5f-e6e3-4bc0-8b4b-99e57d035301"),
                             CategoryId = 2,
                             Description = "Para hacer el pan de los dioses",
-                            Image = "Tostador.jpg",
                             Name = "Tostador chileno",
                             Price = 5000f
                         },
                         new
                         {
-                            Id = new Guid("05671a19-9cbb-46f4-b9cc-c1813f34bedf"),
+                            Id = new Guid("ef049cf7-e0ac-4e9f-a98f-f87c8bcba73b"),
                             CategoryId = 2,
-                            Description = "Una ventana que te permitira ver el otro mundo",
-                            Image = "Hielo7.gif",
+                            Description = "La ventana ideal",
                             Name = "Ventana de hielo 7",
                             Price = 1000f
                         },
                         new
                         {
-                            Id = new Guid("86d80819-054d-4f20-a71e-8939d073a4f3"),
+                            Id = new Guid("91214ed9-978a-4632-98b4-c45352767705"),
                             CategoryId = 3,
                             Description = "Para disfrazarte de alguien que se cree impuro.",
-                            Image = "cuerda2.jpg",
                             Name = "Látigo con Puntas Sin Filo",
                             Price = 10250f
                         },
                         new
                         {
-                            Id = new Guid("5e734697-2fd4-4d9a-8f14-dc585e72840c"),
+                            Id = new Guid("03032799-7e89-4e75-8132-8e43290a78ee"),
                             CategoryId = 3,
-                            Description = "Si te sientes inutil, entonces no haz conocido este manual",
-                            Image = "Diccionario.jpg",
-                            Name = "Hagalo usted mismo manual",
+                            Description = "Creeme es una buena compra",
+                            Name = "Diccionario para entender a las mujeres",
                             Price = 7500f
                         },
                         new
                         {
-                            Id = new Guid("eef02b72-ce0f-45ab-bda6-721718d44de9"),
+                            Id = new Guid("aac94e45-bdc6-42f7-b50e-3f468a0b86be"),
                             CategoryId = 3,
-                            Description = "Pateala y el hospital te esperara",
-                            Image = "Pelota.jpg",
-                            Name = "Pelota cuadrada de acero reforzado",
+                            Description = "La pelota de quico finalmente ha llgeaod al mercado",
+                            Name = "Pelota cuadrada",
                             Price = 2000f
                         },
                         new
                         {
-                            Id = new Guid("e4de66fb-c174-42fd-bc47-c426b0dc8e5e"),
+                            Id = new Guid("eb741d84-a5a1-4097-99a2-3e2783dd23a6"),
                             CategoryId = 4,
                             Description = "Para escuchar ese zumbido que molesta a tus vecinos y ver los canales que no te gustan.",
-                            Image = "Antena.jpg",
                             Name = "Multiantena de Fierro",
                             Price = 6350f
                         },
                         new
                         {
-                            Id = new Guid("242d54bd-18a5-4510-afba-9d8ac3309fff"),
+                            Id = new Guid("f324033d-6d9f-4eaf-b2af-728733f14c75"),
                             CategoryId = 4,
                             Description = "Finge estatus pero con algo de cerebro",
-                            Image = "Iphone.webp",
                             Name = "Iphone con bateria incluida",
                             Price = 1000000f
                         },
                         new
                         {
-                            Id = new Guid("e7be64e3-6204-4c02-b39e-2d726e3f57ef"),
+                            Id = new Guid("837e8b95-bcf4-4b88-b38b-665d2fc4aac1"),
                             CategoryId = 4,
                             Description = "Un televisor invisible,no hay mas descripcion",
-                            Image = "nada.jpg",
                             Name = "Television invisible",
                             Price = 256000f
                         },
                         new
                         {
-                            Id = new Guid("48d92b3d-8d68-4fd5-9800-ec25ba8ebd0c"),
+                            Id = new Guid("031cd7bc-8529-45ac-8def-e9592bb60a90"),
                             CategoryId = 5,
                             Description = "Para mostrar la fuerza que no tienes.",
-                            Image = "martillo.jpg",
                             Name = "Martillo Doble Golpe",
                             Price = 7360f
                         },
                         new
                         {
-                            Id = new Guid("f11395ac-b712-432d-abea-c2eef329deda"),
+                            Id = new Guid("faf2e6e9-b2b5-4032-b88e-834c4e96c58b"),
                             CategoryId = 5,
                             Description = "Ideal para construir aeroplanos",
-                            Image = "inalambrico.jpg",
                             Name = "Cable inalambrico",
                             Price = 6000f
                         },
                         new
                         {
-                            Id = new Guid("05683091-8eba-4e0e-b10f-68e1d670e96d"),
+                            Id = new Guid("8a33c4f5-0f4d-4458-82f7-12616bc8ddf7"),
                             CategoryId = 5,
                             Description = "En el pais no existe",
-                            Image = "cadenai.jpg",
                             Name = "Cadena perpetua",
                             Price = 9000f
                         },
                         new
                         {
-                            Id = new Guid("a283065b-e854-49ad-b5ab-33d747fd0f87"),
+                            Id = new Guid("202a427d-e9ac-4f52-8d10-6ef7e50b2d84"),
                             CategoryId = 6,
                             Description = "Magnificado a escala con lujo de detalles. Para estudiar lo que no puedes ver.",
-                            Image = "p.webp",
                             Name = "Miembro a Escala",
                             Price = 7360f
                         },
                         new
                         {
-                            Id = new Guid("fe97ff22-9a0d-41c6-bca2-2eca9cefd36c"),
+                            Id = new Guid("62a6aa90-e1f6-439a-b5a1-129220ecb2a2"),
                             CategoryId = 6,
-                            Description = "Prenda que trae sorpresa",
-                            Image = "cosplay.webp",
+                            Description = "Regalalo",
                             Name = "Cosplay de enfermera",
                             Price = 4990f
                         },
                         new
                         {
-                            Id = new Guid("75a728da-38aa-49cb-b22f-c8313c522c63"),
+                            Id = new Guid("baed9fe6-e4fb-4c00-8db4-0946ba563b02"),
                             CategoryId = 6,
-                            Description = "La mejor ropa blindada para visitar puente alto",
-                            Image = "ropa.jpg",
-                            Name = "Blindaje anti portonazo",
+                            Description = "Ropa de mal gusto",
+                            Name = "Ropa de mal gusto",
                             Price = 10f
                         });
                 });
