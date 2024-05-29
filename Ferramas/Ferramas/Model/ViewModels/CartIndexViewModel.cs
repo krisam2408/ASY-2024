@@ -11,6 +11,7 @@ public class CartIndexViewModel
     public Dictionary<JsonProduct, int> JsonCart { get; set; }
     public float CLPTotalValue { get; set; }
     public float USDTotalValue { get; set; }
+    public bool ApplyDiscount { get; set; }
     public bool APIStatus { get; set; }
 
     private CartIndexViewModel(CartProducts cart)
@@ -31,8 +32,11 @@ public class CartIndexViewModel
 
     public static async Task<CartIndexViewModel> Create(CartProducts cart, FerraContext context, KeyValuePair<bool, float> requestResult)
     {
-        CartIndexViewModel result = new CartIndexViewModel(cart);
+        CartIndexViewModel result = new(cart);
         result.APIStatus = requestResult.Key;
+
+        if (cart.SubscribedUser && cart.Products.Count >= 4)
+            result.ApplyDiscount = true;
 
         foreach(KeyValuePair<Guid, int> kv in cart.Products)
         {
@@ -51,6 +55,12 @@ public class CartIndexViewModel
 
             result.JsonCart
                 .TryAdd(jsonProduct, kv.Value);
+        }
+
+        if(result.ApplyDiscount)
+        {
+            result.CLPTotalValue *= 0.9f;
+            result.USDTotalValue *= 0.9f;
         }
 
         return result;

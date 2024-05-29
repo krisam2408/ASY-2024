@@ -6,6 +6,7 @@ public sealed class CartProducts
 {
     public Guid CartId { get; set; }
     public Dictionary<Guid, int> Products { get; set; }
+    public bool SubscribedUser { get; set; }
 
     private CartProducts() 
     {

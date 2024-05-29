@@ -22,6 +22,10 @@ else
             }
         </div>
         <div class="prices flex-center flex-column">
+            @if (Model.ApplyDiscount)
+            {
+                <p>Tienes un 10% de descuento por compras con 4 productos distintos o más.</p>    
+            }
             <p>@Model.CLPTotalValue.CLPFormat()</p>
             <p class="t-@color">@Model.USDTotalValue.USDFormat()</p>
         </div>

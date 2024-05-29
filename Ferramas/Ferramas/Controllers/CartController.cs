@@ -188,6 +188,13 @@ public class CartController : BaseController
 
         CartProducts cartDetails = createCart();
 
+        Subscription? isSubscribed = await m_context
+            .Subscriptions
+            .FirstOrDefaultAsync(u => u.Email == userEmail);
+
+        if (isSubscribed != null)
+            cartDetails.SubscribedUser = true;
+
         return cartDetails;
     }
 
