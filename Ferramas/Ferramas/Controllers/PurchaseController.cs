@@ -18,9 +18,9 @@ public sealed class PurchaseController : BaseController
 {
     // ref: https://www.transbankdevelopers.cl/referencia/webpay#crear-una-transaccion
 
-    private readonly FerraContext m_context;
+    private readonly IFerraDb m_context;
 
-    public PurchaseController(FerraContext context)
+    public PurchaseController(IFerraDb context)
     {
         m_context = context;
     }

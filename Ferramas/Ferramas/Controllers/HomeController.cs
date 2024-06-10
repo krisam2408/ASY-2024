@@ -1,5 +1,6 @@
 ﻿using Ferramas.Extensions;
 using Ferramas.Model;
+using Ferramas.Model.DataTransfer;
 using Ferramas.Model.Domain;
 using Ferramas.Model.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -11,9 +12,9 @@ namespace Ferramas.Controllers;
 [AllowAnonymous]
 public class HomeController : BaseController
 {
-    private readonly FerraContext m_context;
+    private readonly IFerraDb m_context;
 
-    public HomeController(FerraContext context)
+    public HomeController(IFerraDb context)
     {
         m_context = context;
     }

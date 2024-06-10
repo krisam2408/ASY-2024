@@ -1,5 +1,6 @@
 ﻿using Ferramas.Extensions;
 using Ferramas.Model;
+using Ferramas.Model.DataTransfer;
 using Ferramas.Model.Domain;
 using Ferramas.Model.ViewModels;
 using Microsoft.AspNetCore.Authentication;
@@ -13,9 +14,9 @@ namespace Ferramas.Controllers
     [AllowAnonymous]
     public sealed class AuthController : BaseController
     {
-        private readonly FerraContext m_context;
+        private readonly IFerraDb m_context;
 
-        public AuthController(FerraContext context)
+        public AuthController(IFerraDb context)
         {
             m_context = context;
         }
