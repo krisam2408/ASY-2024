@@ -14,10 +14,10 @@ namespace Ferramas.Controllers;
 [Authorize]
 public class CartController : BaseController
 {
-    private readonly IFerraDb m_context;
+    private readonly FerraContext m_context;
     private readonly MeinMai m_exhangeApi;
 
-    public CartController(IFerraDb context, MeinMai exchangeApi)
+    public CartController(FerraContext context, MeinMai exchangeApi)
     {
         m_context = context;
         m_exhangeApi = exchangeApi;

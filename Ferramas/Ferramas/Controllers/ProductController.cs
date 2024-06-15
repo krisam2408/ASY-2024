@@ -10,10 +10,10 @@ namespace Ferramas.Controllers;
 
 public sealed class ProductController : BaseController
 {
-    private readonly IFerraDb m_context;
+    private readonly FerraContext m_context;
     private readonly MeinMai m_exchangeApi;
 
-    public ProductController(IFerraDb context, MeinMai exchange)
+    public ProductController(FerraContext context, MeinMai exchange)
     {
         m_context = context;
         m_exchangeApi = exchange;

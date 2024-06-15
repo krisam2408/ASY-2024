@@ -1,24 +1,35 @@
 ﻿using Ferramas.Extensions;
-using Ferramas.Model.DataTransfer;
-using Moq;
+using Ferramas.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ferramas.Tests.Settings
 {
     public static class DbContextSettings
     {
-        public static Mock<IFerraDb> CreateMockContext()
+        public static FerraContext CreateMockContext()
         {
-            Mock<IFerraDb> result = new Mock<IFerraDb>();
-            result.Setup(db => db.Users)
-                .Returns(() => MockExtension.GetUsers());
-            result.Setup(db => db.Categories)
-                .Returns(() => MockExtension.GetCategories());
-            result.Setup(db => db.Products)
-                .Returns(() => MockExtension.GetProducts());
-            result.Setup(db => db.Subscriptions)
-                .Returns(() => MockExtension.GetUsers()[0]);
+            DbContextOptions<FerraContext> options = new DbContextOptionsBuilder<FerraContext>()
+                .UseInMemoryDatabase("FerraMock")
+                .Options;
+            
+            using(FerraContext context = new(options))
+            {
+                context
+                    .Users
+                    .InsertRangeAsync(MockExtension.GetUsers());
 
-            return result;
+                context
+                    .Categories
+                    .InsertRangeAsync(MockExtension.GetCategories());
+
+                context
+                    .Products
+                    .InsertRangeAsync(MockExtension.GetProducts());
+
+                context.SaveChanges();
+            }
+
+            return new(options);
         }
     }
 }

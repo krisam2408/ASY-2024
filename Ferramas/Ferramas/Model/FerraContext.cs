@@ -1,12 +1,11 @@
 ﻿using Ferramas.Extensions;
-using Ferramas.Model.DataTransfer;
 using Ferramas.Model.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Ferramas.Model;
 
-public sealed class FerraContext : DbContext, IFerraDb
+public sealed class FerraContext : DbContext
 {
     public FerraContext(DbContextOptions<FerraContext> options) : base(options) { }
 

@@ -30,7 +30,7 @@ public class CartIndexViewModel
         GotProducts = true;
     }
 
-    public static async Task<CartIndexViewModel> Create(CartProducts cart, IFerraDb context, KeyValuePair<bool, float> requestResult)
+    public static async Task<CartIndexViewModel> Create(CartProducts cart, FerraContext context, KeyValuePair<bool, float> requestResult)
     {
         CartIndexViewModel result = new(cart);
         result.APIStatus = requestResult.Key;

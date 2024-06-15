@@ -43,11 +43,18 @@ public sealed class JsonProduct
 
         string target = handlePicture();
 
-        byte[] buffer = await File.ReadAllBytesAsync($"wwwroot/images/products/{target}");
-
         ImageBase64 imageBase64 = ImageBase64.PNG;
-        imageBase64.Data = Convert.ToBase64String(buffer);
-
+        try
+        {
+            byte[] buffer = await File.ReadAllBytesAsync($"wwwroot/images/products/{target}");
+            imageBase64.Data = Convert.ToBase64String(buffer);
+            return imageBase64;
+        }
+        catch
+        {
+            imageBase64.Data = $"404 - Image {target} not found";
+        }
+        
         return imageBase64;
     }
 }

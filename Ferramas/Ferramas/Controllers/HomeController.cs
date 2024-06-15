@@ -12,9 +12,9 @@ namespace Ferramas.Controllers;
 [AllowAnonymous]
 public class HomeController : BaseController
 {
-    private readonly IFerraDb m_context;
+    private readonly FerraContext m_context;
 
-    public HomeController(IFerraDb context)
+    public HomeController(FerraContext context)
     {
         m_context = context;
     }
