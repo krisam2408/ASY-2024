@@ -3,7 +3,7 @@ using Ferramas.Model;
 using Ferramas.Model.DataTransfer;
 using Ferramas.Model.Domain;
 using Ferramas.Model.ViewModels;
-using MaiSchatz;
+using MaiSchatz.Abstracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +15,9 @@ namespace Ferramas.Controllers;
 public class CartController : BaseController
 {
     private readonly FerraContext m_context;
-    private readonly MeinMai m_exhangeApi;
+    private readonly IMeinMai m_exhangeApi;
 
-    public CartController(FerraContext context, MeinMai exchangeApi)
+    public CartController(FerraContext context, IMeinMai exchangeApi, bool isMocked = false) : base(isMocked)
     {
         m_context = context;
         m_exhangeApi = exchangeApi;
@@ -55,7 +55,7 @@ public class CartController : BaseController
 
         if(updatedCart == null)
         {
-            string userEmail = HttpContext.GetUserEmail();
+            string userEmail = GetUserEmail();
             FerraUser user = await m_context
                 .Users
                 .FirstAsync(u => u.Email == userEmail);
@@ -159,7 +159,7 @@ public class CartController : BaseController
 
     private async Task<CartProducts?> GetCart()
     {
-        string userEmail = HttpContext.GetUserEmail();
+        string userEmail = GetUserEmail();
 
         FerraUser? user = await m_context
             .Users

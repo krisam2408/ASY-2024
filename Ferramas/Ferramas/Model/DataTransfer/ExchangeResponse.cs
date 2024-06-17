@@ -1,6 +1,8 @@
-﻿namespace Ferramas.Model.DataTransfer;
+﻿using MaiSchatz.Abstracts;
 
-public sealed class ExchangeResponse
+namespace Ferramas.Model.DataTransfer;
+
+public sealed class ExchangeResponse : IResponse
 {
     public bool Success { get; set; }
     public int Timestamp { get; set; }

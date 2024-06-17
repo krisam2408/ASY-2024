@@ -2,7 +2,7 @@
 using Ferramas.Model.DataTransfer;
 using Ferramas.Model.Domain;
 using Ferramas.Model.ViewModels;
-using MaiSchatz;
+using MaiSchatz.Abstracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +11,9 @@ namespace Ferramas.Controllers;
 public sealed class ProductController : BaseController
 {
     private readonly FerraContext m_context;
-    private readonly MeinMai m_exchangeApi;
+    private readonly IMeinMai m_exchangeApi;
 
-    public ProductController(FerraContext context, MeinMai exchange)
+    public ProductController(FerraContext context, IMeinMai exchange, bool isMocked = false) : base(isMocked)
     {
         m_context = context;
         m_exchangeApi = exchange;

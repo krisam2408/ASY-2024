@@ -2,6 +2,7 @@ using DBConfig.Abstract;
 using DBConfig.Factory;
 using Ferramas.Model;
 using MaiSchatz;
+using MaiSchatz.Abstracts;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
@@ -38,7 +39,7 @@ void ConfigureSevices()
 {
     IConfigurationSection exchangeSection = builder.Configuration.GetSection("ExchangeAPI");
     MaiSchatzSettings exchangeSettings = new(exchangeSection);
-    builder.Services.AddScoped((exa) => new MeinMai(exchangeSettings));
+    builder.Services.AddScoped<IMeinMai, MeinMai>((exa) => new MeinMai(exchangeSettings));
 
     IConfigurationSection dbSection = builder.Configuration.GetSection("DBConnection");
     IDBConnectionData connectionData = DBConnectionFactory.CreateDBConnectionData(dbSection);

@@ -20,7 +20,7 @@ public sealed class PurchaseController : BaseController
 
     private readonly FerraContext m_context;
 
-    public PurchaseController(FerraContext context)
+    public PurchaseController(FerraContext context, bool isMocked = false) : base(isMocked)
     {
         m_context = context;
     }
@@ -29,7 +29,7 @@ public sealed class PurchaseController : BaseController
     {
         Guid productId = Guid.Parse(id);
 
-        string userMail = HttpContext.GetUserEmail();
+        string userMail = GetUserEmail();
         FerraUser user = await m_context
             .Users
             .FirstAsync(u => u.Email == userMail);

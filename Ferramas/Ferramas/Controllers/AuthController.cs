@@ -15,7 +15,7 @@ namespace Ferramas.Controllers
     {
         private readonly FerraContext m_context;
 
-        public AuthController(FerraContext context)
+        public AuthController(FerraContext context, bool isMocked = false) : base(isMocked)
         {
             m_context = context;
         }
@@ -41,9 +41,12 @@ namespace Ferramas.Controllers
             if(model.Password != user.PasswordHash)
                 return RedirectToAction("index");
 
-            ClaimsPrincipal principal = user.CreatePrincipalIdentity();
+            if (!IsMocked)
+            {
+                ClaimsPrincipal principal = user.CreatePrincipalIdentity();
 
-            await HttpContext.SignInAsync(principal);
+                await HttpContext.SignInAsync(principal);
+            }
 
             return RedirectToAction("index", "home");
         }
@@ -56,7 +59,9 @@ namespace Ferramas.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
+            if(!IsMocked)
+                await HttpContext.SignOutAsync();
+
             return RedirectToAction("index", "home");
         }
     }

@@ -14,7 +14,7 @@ public class HomeController : BaseController
 {
     private readonly FerraContext m_context;
 
-    public HomeController(FerraContext context)
+    public HomeController(FerraContext context, bool isMocked = false) : base(isMocked)
     {
         m_context = context;
     }

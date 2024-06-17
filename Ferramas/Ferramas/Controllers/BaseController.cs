@@ -1,6 +1,7 @@
 ﻿using Ferramas.Extensions;
 using Ferramas.Model.DataTransfer;
 using MaiSchatz;
+using MaiSchatz.Abstracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ferramas.Controllers;
@@ -14,9 +15,16 @@ public abstract class BaseController : Controller
 
     public const float USDFactor = 0.0011f;
 
+    public readonly bool IsMocked;
+
+    protected BaseController(bool isMocked)
+    {
+        IsMocked = isMocked;
+    }
+
     protected virtual void CommonDataTransfer()
     {
-        ViewData["Auth"] = HttpContext.IsAuthenticated();
+        ViewData["Auth"] = IsAuthenticated();
     }
 
     protected new ViewResult View()
@@ -43,7 +51,7 @@ public abstract class BaseController : Controller
         return base.View(viewName, model);
     }
 
-    protected async Task<KeyValuePair<bool, float>> ExchangeRequest(MeinMai caller)
+    protected async Task<KeyValuePair<bool, float>> ExchangeRequest(IMeinMai caller)
     {
         try
         {
@@ -70,5 +78,19 @@ public abstract class BaseController : Controller
         {
             return new(false, USDFactor);
         }
+    }
+
+    protected bool IsAuthenticated()
+    {
+        if (IsMocked)
+            return true;
+        return HttpContext.IsAuthenticated();
+    }
+
+    protected string GetUserEmail()
+    {
+        if (IsMocked)
+            return "testerina@gmail.com";
+        return HttpContext.GetUserEmail();
     }
 }
