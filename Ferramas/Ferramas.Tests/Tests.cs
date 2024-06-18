@@ -7,10 +7,9 @@ using Ferramas.Model.ViewModels;
 using Ferramas.Tests.Settings;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 using Xunit.Abstractions;
 
-namespace Ferramas.Tests.Tests;
+namespace Ferramas.Tests;
 
 public class Tests
 {
@@ -23,6 +22,12 @@ public class Tests
         m_output = output;
         m_context = MockDbContext.CreateMockContext();
         m_exchangeApi = new();
+    }
+
+    private enum Scenario
+    {
+        NoDiscount = 4,
+        Discounted = 8
     }
 
     #region Api
@@ -199,6 +204,38 @@ public class Tests
 
     #region Cart
     [Fact]
+    public async Task Cart_BuyProduct()
+    {
+        const string productId = "6c056e3a-6963-4c42-abaa-a19896106f9d";
+
+        PurchaseController controller = new(m_context, true);
+
+        IActionResult result = await controller.PurchaseProduct(productId);
+
+        bool assertResult()
+        {
+            if(result is ViewResult view && view.Model != null)
+            {
+                PurchasePayViewModel model = (PurchasePayViewModel)view.Model;
+
+                // https://webpay3gint.transbank.cl/webpayserver/initTransaction
+
+                m_output.WriteLine(model.Url);
+
+                bool webpay = model.Url.Contains("webpay");
+                bool endpoint = model.Url.Contains("/initTransaction");
+                bool token = !string.IsNullOrWhiteSpace(model.Token);
+
+                return webpay && endpoint && token;
+            }
+
+            return false;
+        }
+
+        Assert.True(assertResult());
+    }
+
+    [Fact]
     public async Task Cart_AddToCart()
     {
         const string productId = "6c056e3a-6963-4c42-abaa-a19896106f9d";
@@ -228,6 +265,171 @@ public class Tests
         }
 
         Assert.True(assertResult());
+    }
+
+    [Fact]
+    public async Task Cart_ViewCart()
+    {
+        CartController controller = new(m_context, m_exchangeApi, true);
+
+        await ClearCarts(controller);
+        Guid[] productIds = await AddMultipleItemsToCart(controller, Scenario.NoDiscount);
+
+        IActionResult result = await controller.Index();
+
+        bool assertResult()
+        {
+            if (result is ViewResult view && view.Model != null)
+            {
+                CartIndexViewModel model = (CartIndexViewModel)view.Model;
+
+                bool rightProducts = true;
+
+                int count = 0;
+
+                foreach(KeyValuePair<JsonProduct, int> product in model.JsonCart)
+                {
+                    count += product.Value;
+
+                    if(!productIds.Contains(product.Key.Id))
+                        rightProducts = false;
+                }
+
+                bool rightCount = count == productIds.Length;
+
+                m_output.WriteLine($"Right Products: {rightProducts}\nExpected Products: {count} / {productIds.Length}");
+
+                return rightProducts && rightCount;
+            }
+
+            return false;
+        }
+
+        Assert.True(assertResult());
+    }
+
+    [Fact]
+    public async Task Cart_SumPrices()
+    {
+        CartController controller = new(m_context, m_exchangeApi, true);
+
+        await ClearCarts(controller);
+        await AddMultipleItemsToCart(controller, Scenario.NoDiscount);
+
+        IActionResult result = await controller.Index();
+
+        bool assertResult()
+        {
+            if (result is ViewResult view && view.Model != null)
+            {
+                CartIndexViewModel model = (CartIndexViewModel)view.Model;
+
+                float price = 0f;
+
+                foreach (KeyValuePair<JsonProduct, int> product in model.JsonCart)
+                {
+                    price += product.Key.PriceCLP * product.Value;
+                }
+
+                bool rightPrice = price == model.CLPTotalValue;
+
+                m_output.WriteLine($"Expected Price: {price}\nReceived Price: {model.CLPTotalValue}");
+
+                return rightPrice;
+            }
+
+            return false;
+        }
+
+        Assert.True(assertResult());
+    }
+
+    [Fact]
+    public async Task Cart_SumPricesWithDiscount()
+    {
+        HomeController homeController = new(m_context, true);
+
+        await homeController.Subscribe("testerina@gmail.com");
+
+        CartController cartController = new(m_context, m_exchangeApi, true);
+
+        await ClearCarts(cartController);
+        await AddMultipleItemsToCart(cartController, Scenario.Discounted);
+
+        IActionResult result = await cartController.Index();
+
+        bool assertResult()
+        {
+            if (result is ViewResult view && view.Model != null)
+            {
+                CartIndexViewModel model = (CartIndexViewModel)view.Model;
+
+                bool appliesDiscount = model.ApplyDiscount;
+
+                float normalPrice = 0f;
+                float discountedPrice = 0f;
+
+                foreach (KeyValuePair<JsonProduct, int> product in model.JsonCart)
+                {
+                    normalPrice += product.Key.PriceCLP * product.Value;
+                    discountedPrice += product.Key.PriceCLP * product.Value;
+                }
+
+                discountedPrice *= 0.9f;
+
+                bool rightModelPrice = discountedPrice == model.CLPTotalValue;
+                bool rightDiscountedPrice = model.CLPTotalValue == normalPrice * 0.9f;
+
+                m_output.WriteLine($"Normal Price: {normalPrice}\nExpected Price: {discountedPrice}\nReceived Price: {model.CLPTotalValue}");
+
+                return appliesDiscount && rightModelPrice && rightDiscountedPrice;
+            }
+
+            return false;
+        }
+
+        Assert.True(assertResult());
+    }
+
+    private static async Task<Guid[]> AddMultipleItemsToCart(CartController controller, Scenario scenario)
+    {
+        string[] productIds =
+        [
+            "cff8d445-fcd6-4a47-a657-df677546962b",
+            "cff8d445-fcd6-4a47-a657-df677546962b",
+            "a255e5fa-a1ce-491c-927b-81ec0c7040e5",
+            "4a9af2b6-5527-4649-80df-b27fc4cad78e",
+            "c0622cdb-6902-4ae5-a973-e0835031d801",
+            "c0622cdb-6902-4ae5-a973-e0835031d801",
+            "c0622cdb-6902-4ae5-a973-e0835031d801",
+            "c0622cdb-6902-4ae5-a973-e0835031d801",
+        ];
+
+        List<Guid> result = new();
+
+        int len = (int)scenario;
+        for(int i = 0; i < len; i++)
+        {
+            string id = productIds[i];
+            result.Add(Guid.Parse(id));
+            await controller.Add(id);
+        }
+
+        return result
+            .ToArray();
+    }
+
+    private async Task ClearCarts(CartController controller)
+    {
+        string[] cartIds = await m_context
+            .Cart
+            .Select(c => c.Id.ToString())
+            .ToArrayAsync();
+
+        foreach (string cartId in cartIds)
+        {
+            await controller.Clear(cartId);
+        }
     }
     #endregion
 }

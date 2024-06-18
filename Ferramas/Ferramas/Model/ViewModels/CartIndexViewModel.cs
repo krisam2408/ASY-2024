@@ -30,7 +30,7 @@ public class CartIndexViewModel
         GotProducts = true;
     }
 
-    public static async Task<CartIndexViewModel> Create(CartProducts cart, FerraContext context, KeyValuePair<bool, float> requestResult)
+    public static async Task<CartIndexViewModel> Create(CartProducts cart, FerraContext context, KeyValuePair<bool, float> requestResult, bool IsMocked)
     {
         CartIndexViewModel result = new(cart);
         result.APIStatus = requestResult.Key;
@@ -48,7 +48,7 @@ public class CartIndexViewModel
             if (product == null)
                 continue;
 
-            JsonProduct jsonProduct = await JsonProduct.Create(product, requestResult);
+            JsonProduct jsonProduct = await JsonProduct.Create(product, requestResult, IsMocked);
 
             result.CLPTotalValue += jsonProduct.PriceCLP * kv.Value;
             result.USDTotalValue += jsonProduct.PriceUSD * kv.Value;

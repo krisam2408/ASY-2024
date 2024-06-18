@@ -32,7 +32,7 @@ public class CartController : BaseController
 
         KeyValuePair<bool, float> exchangeResult = await ExchangeRequest(m_exhangeApi);
 
-        CartIndexViewModel model = await CartIndexViewModel.Create(cart, m_context, exchangeResult);
+        CartIndexViewModel model = await CartIndexViewModel.Create(cart, m_context, exchangeResult, IsMocked);
 
         return View(model);
     }

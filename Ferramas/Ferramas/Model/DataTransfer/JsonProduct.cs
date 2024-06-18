@@ -13,26 +13,29 @@ public sealed class JsonProduct
     public float PriceUSD { get; set; }
     public bool APIStatus { get; set; }
 
-    private JsonProduct(Product product)
+    private readonly bool m_isMocked;
+
+    private JsonProduct(Product product, bool isMocked)
     {
         Id = product.Id;
         Name = product.Name;
         Category = product.Category.Name;
         Description = product.Description;
         PriceCLP = product.Price;
+        m_isMocked = isMocked;
     }
 
-    public static async Task<JsonProduct> Create(Product product, KeyValuePair<bool, float> requestResult)
+    public static async Task<JsonProduct> Create(Product product, KeyValuePair<bool, float> requestResult, bool isMocked)
     {
-        JsonProduct result = new(product);
-        result.Image = await HandleBase64Image(product.Image);
+        JsonProduct result = new(product, isMocked);
+        result.Image = await result.HandleBase64Image(product.Image);
         result.APIStatus = requestResult.Key;
         result.PriceUSD = result.PriceCLP * requestResult.Value;
 
         return result;
     }
 
-    private static async Task<ImageBase64> HandleBase64Image(string? image)
+    private async Task<ImageBase64> HandleBase64Image(string? image)
     {
         string handlePicture()
         {
@@ -44,17 +47,15 @@ public sealed class JsonProduct
         string target = handlePicture();
 
         ImageBase64 imageBase64 = ImageBase64.PNG;
-        try
+
+        if (!m_isMocked)
         {
             byte[] buffer = await File.ReadAllBytesAsync($"wwwroot/images/products/{target}");
             imageBase64.Data = Convert.ToBase64String(buffer);
             return imageBase64;
         }
-        catch
-        {
-            imageBase64.Data = $"404 - Image {target} not found";
-        }
         
+        imageBase64.Data = $"404 - Image {target} not found";
         return imageBase64;
     }
 }

@@ -138,7 +138,8 @@ public sealed class PurchaseController : BaseController
         Options transOptions = new(IntegrationCommerceCodes.WEBPAY_PLUS, IntegrationApiKeys.WEBPAY, WebpayIntegrationType.Test);
         Transaction tx = new(transOptions);
 
-        string url = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/purchase/confirmTransaction/";
+        string host = GetHostLocation();
+        string url = $"{host}/purchase/confirmTransaction/";
 
         CreateResponse response = tx.Create(attempt.TransbankSession, attempt.Id.ToString(), (decimal)attempt.PurchasePrice, url);
 

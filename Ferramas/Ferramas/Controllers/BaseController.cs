@@ -93,4 +93,11 @@ public abstract class BaseController : Controller
             return "testerina@gmail.com";
         return HttpContext.GetUserEmail();
     }
+
+    protected string GetHostLocation()
+    {
+        if (IsMocked)
+            return "https://localhost:7253";
+        return $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+    }
 }

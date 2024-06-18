@@ -48,7 +48,7 @@ public sealed class ProductController : BaseController
 
         KeyValuePair<bool, float> exchangeResult = await ExchangeRequest(m_exchangeApi);
 
-        JsonProduct model = await JsonProduct.Create(product, exchangeResult);
+        JsonProduct model = await JsonProduct.Create(product, exchangeResult, IsMocked);
 
         return View(model);
     }
@@ -92,7 +92,7 @@ public sealed class ProductController : BaseController
                 return NotFound();
 
             KeyValuePair<bool, float> exchangeResult = await ExchangeRequest(m_exchangeApi);
-            JsonProduct result = await JsonProduct.Create(product, exchangeResult);
+            JsonProduct result = await JsonProduct.Create(product, exchangeResult, IsMocked);
 
             return Json(result);
         }
@@ -126,7 +126,7 @@ public sealed class ProductController : BaseController
 
         foreach (Product product in products)
         {
-            JsonProduct jProduct = await JsonProduct.Create(product, exchangeResult);
+            JsonProduct jProduct = await JsonProduct.Create(product, exchangeResult, IsMocked);
             result.Add(jProduct);
         }
 
