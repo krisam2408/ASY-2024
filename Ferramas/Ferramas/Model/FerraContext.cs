@@ -56,9 +56,4 @@ public sealed class FerraContext : DbContext
         builder.Entity<Product>()
             .HasData(products);
     }
-
-    public async Task SaveChangesAsync()
-    {
-        await base.SaveChangesAsync();
-    }
 }
