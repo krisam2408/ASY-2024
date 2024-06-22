@@ -1,6 +1,5 @@
 ﻿using Ferramas.Extensions;
 using Ferramas.Model.DataTransfer;
-using MaiSchatz;
 using MaiSchatz.Abstracts;
 using Microsoft.AspNetCore.Mvc;
 
