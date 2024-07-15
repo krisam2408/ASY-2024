@@ -3,8 +3,8 @@
 <p>Integrantes:</p>
 <ul>
 <li>Bornhardt, Christoph</li>
-<li>Torres, Nicolás</li>
 <li>Serre. Michelle</li>
+<li>Torres, Nicolás</li>
 </ul>
 
 <p>Este repositorio contiene toda la evidencia del desarrollo del caso transversal y su documentación.</p>
@@ -76,8 +76,8 @@
 <li>Conéctese al motor de SQL Server (Usuario: sa, Contraseña: UnaClave2024)</li>
 <li>Ejecute archivo SQL 'db_setup.sql' que se encuentra en directorio raíz del repositorio principal para crear la base de datos</li>
 <li>Abrir Visual Studio 2022</li>
-<li>Abrir solución desde ~/Ferramas/Ferramas.sln'</li>
-<li>Abrir 'Package Manager Console' desde la opción de menú 'Tools -> Nuget Package Manager -> Package Manager Console</li>
+<li>Abrir solución desde '~/Ferramas/Ferramas.sln'</li>
+<li>Abrir 'Package Manager Console' desde la opción de menú 'Tools -> Nuget Package Manager -> Package Manager Console'</li>
 <li>Ejecutar desde consola el comando 'update-database'</li>
 </ul>
 <h3>Despliegue de Plataforma</h3>
