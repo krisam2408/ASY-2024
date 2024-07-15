@@ -1,0 +1,14 @@
+services:
+
+    database:
+        container_name: sqs-db
+        image: rapidfort/microsoft-sql-server-2019-ib:latest
+        env_file: .env
+        environment:
+            ACCEPT_EULA: 'Y'
+            MSSQL_SA_PASSWORD: '${SA_PASS}'
+        ports:
+            - 1433:1433
+
+volumes:
+    sqs_data:
